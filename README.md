@@ -1,6 +1,6 @@
 # &lt;slide-chimp&gt;
 
-> Web Component that allows you to pass forward/backward slides with voice recognition
+> Web Component that allows you to pass forward/backward slides using Speech Recognition API.
 
 
 ## Demo
