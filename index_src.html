@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="slide-chimp: Web Component that allows you to pass forward/backward slides using Speech Recognition API.">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto+Slab">
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="bower_components/polymer/polymer.html">
+    <link rel="import" href="bower_components/slide-chimp/slide-chimp.html">
+    <style>
+        /** example based pure and http://zenorocha.github.io/voice-elements/ */
+        body {
+            font-family: Roboto;
+        }
+        .splash-head-chimp {
+            text-transform: lowercase;
+            color: rgba(255,255,255,0.54);
+            font-size: 2.5em;
+        }
+        .splash-head-chimp > span {
+            color: rgba(255,255,255,1);
+            font-weight: 500;
+        }
+        .center {
+            max-width: 768px;
+            margin: 0 auto;
+            display: block;
+            padding: 0 80px 20px 80px;
+        }
+        pre {
+            display: block;
+            padding: 9.5px;
+            margin: 0 0 10px;
+            font-size: 14px;
+            line-height: 20px;
+            word-break: break-all;
+            word-wrap: break-word;
+            white-space: pre;
+            white-space: pre-wrap;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            font-family: Monaco, Consolas, "Lucida Console", monospace;
+        }
+        .ribbon.bg-1 {
+            background: #D8E9F0;
+            color: rgba(0,0,0,.86);
+        }
+        .ribbon.bg-1 h2 {
+            color: rgba(0,0,0,.86);
+        }
+        .example {
+            position: relative;
+            margin: 15px 0;
+            padding: 39px 19px 14px;
+            background-color: #fff;
+            border-radius: 4px 4px 0 0;
+        } 
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            border-bottom: 1px dotted #F5F5F5; 
+        }
+       .pure-button.button-error {
+                background: rgb(202, 60, 60); /* this is a maroon */
+            }        
+    </style>
+    <title>slide-chimp web components!</title>
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="css/layouts/marketing.css">
+    <!--<![endif]-->
+</head>
+
+<body>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head-chimp">&lt;<span>slide-chimp</span>&gt;</h1>
+        <p class="splash-subhead">
+            A 'chimp' (Web Component) that pass your slides by voice command (Speech Recognition API)
+        </p>
+        <p>
+            <iframe src="http://ghbtns.com/github-btn.html?user=horacioibrahim&amp;repo=slide-chimp&amp;type=watch&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="152" height="30"></iframe>
+            <iframe src="http://ghbtns.com/github-btn.html?user=horacioibrahim&amp;repo=slide-chimp&amp;type=fork&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="156" height="30"></iframe>
+        </p>
+        <img src="img/hero.svg">
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="content">
+        <h2 class="content-head is-center">INSTALL</h2>
+
+        <div class="pure-g-r">
+            <div class="center">
+                <div class="l-box pure-u-1">
+                <h3 class="content-subhead">
+                    Install the component using Bower
+                </h3>
+                <pre>$ bower install slide-chimp</pre>
+                <div class="is-center">
+                    <a class="pure-button" href="https://github.com/horacioibrahim/slide-chimp/fork">Fork on GitHub</a>
+                    <a class="pure-button" href="https://github.com/horacioibrahim/slide-chimp/archive/gh-pages.zip">Download as ZIP</a>
+                </div>
+            </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="ribbon l-box-lrg pure-g bg-1">
+        <div class="section pure-u-1 pure-u-med-1-2 pure-u-lrg-3-5 center">
+                <h2 class="content-head content-head-ribbon">&lt;slide-chimp&gt;</h2>
+                <p>Provides you a 'chimp' to pass forward/backward slides with voice recognition. <strong>Give your command!</strong></p>
+
+                <!-- Demo #1 -->
+                <p>In the following demo, we trigger the voice recognition by using the <strong>words</strong> inserted in input, followed by language <strong>en-US</strong> or <strong>pt-BR</strong> and <strong>start</strong> method when the user submits the form. Then, the <strong style="font-style: italic;">chimp</strong> will change page if recognized voice that matchs with content inserted in the input.</p>
+            
+                <slide-chimp id="slide-chimp-element" style="min-height: 60px; width: 100%; margin: 0 auto; display: block; color: #F5F5F5; text-align: center; background-color: #F5F5F5;">
+                    <div class="page-chimp" style="height: 80px; width: 100%; background: #07588A; padding: 5px;">First page</div>
+                    <div class="page-chimp" style="height: 80px; width: 100%; background: #EA5959; padding: 5px;">Second page</div>
+                </slide-chimp>
+            
+                <script>
+                window.addEventListener('WebComponentsReady', function(e) {
+                    var form = document.querySelector('#slide-chimp-form'),
+                        input = document.querySelector('#slide-chimp-input'),
+                        select = document.querySelector('#slide-chimp-select'),
+                        element = document.querySelector('#slide-chimp-element');
+
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        if (!input.value) {
+                            input.value = "next";
+                        }
+                        element.forward = input.value;
+                        element.language = select.value;
+                        element.start();
+                        
+                    });
+                    form.addEventListener('reset', function(e) {
+                        element.stop();
+                    });
+                        
+                });
+                </script>
+
+                <div class="example">
+                    <p>Type to define forward words (e.g: next, forward):</p>
+
+                    <form id="slide-chimp-form" class="pure-form">
+                        <fieldset>
+                            <input id="slide-chimp-input" placeholder="e.g: next, próximo">
+                            <select id="slide-chimp-select">
+                                <option value="en-US">en-US</option>
+                                <option value="pt_BR">pt-BR</option>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <button id="slide-chimp-submit" class="pure-button pure-button-primary">Start!</button>
+                            <button type="reset" id="slide-chimp-submit-stop" onsubmit="stop();" class="pure-button button-error">Stop</button>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <script src="https://gist.github.com/horacioibrahim/801cffd981b6ace07866.js"></script>
+                <!-- Options -->
+                <h2 class="content-head content-head-ribbon">Options</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Attribute</th>
+                            <th>Options</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>auto</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Specifies if the API speech should started when page loads.</td>
+                        </tr>
+                        <tr>
+                            <td>forward</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>Specifies the list of the words separated by comma to pass slides forward.</td>
+                        </tr>
+                        <tr>
+                            <td>backward</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>Specifies the list of the words separated by comma to pass slides backward.</td>
+                        </tr>  
+                        <tr>
+                            <td>text</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>Stores the string of the recognized text.</td>
+                        </tr> 
+                        <tr>
+                            <td>language</td>
+                            <td>string</td>
+                            <td>en-US</td>
+                            <td>Specifies the language to be reconized.</td>
+                        </tr>                         
+                    </tbody>
+                </table>
+
+                <!-- Methods -->
+                <h2 class="content-head content-head-ribbon">Methods</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Parameters</th>
+                            <th>Returns</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>start()</td>
+                            <td>None</td>
+                            <td>Nothing</td>
+                            <td>Starts the voice recognition.</td>
+                        </tr>
+                        <tr>
+                            <td>stop()</td>
+                            <td>None</td>
+                            <td>Nothing</td>
+                            <td>Requests to recognition service to stop listening to more audio.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Events -->
+                <h2 class="content-head content-head-ribbon">Events</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>forward	</td>
+                            <td>Triggers when the slide-chimp matchs word(s) defined in foward with speech recognition.</td>
+                        </tr>
+                        <tr>
+                            <td>backward</td>
+                            <td>Triggers when the slide-chimp matchs word(s) defined in backward with speech recognition.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+    <div class="content">
+        <h2 class="content-head is-center">Usage</h2>
+
+        <div class="pure-g-r">
+            <div class="center">
+                <div class="l-box pure-u-1">
+                <h3 class="content-subhead">
+                    1. Import Web Components polyfill:
+                </h3>
+                <pre>&lt;script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"&gt;&lt;/script&gt;</pre>
+                <h3 class="content-subhead">
+                    2. Import Custom Element
+                </h3>
+                <pre>&lt;link rel="import" href="bower_components/voice-elements/dist/voice-player.html"&gt;</pre>
+                <h3 class="content-subhead">
+                    3. Start using it!
+                </h3>
+                <pre>&lt;slide-chimp&gt;&lt;/slide-chimp&gt;</pre>                    
+            </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="footer l-box is-center">
+        Made by <a class="link" href="http://github.com/horacioibrahim">Horacio Ibrahim</a>
+    </div>
+
+</div>
+
+</body>
+    
+</html>
