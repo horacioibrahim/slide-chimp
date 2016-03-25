@@ -43,7 +43,10 @@ Example:
         /**
          * `language` specifies the language to be reconized.
          */
-        language: Boolean,        
+        language: {
+            type: String,        
+            value: 'en_US'
+        },
         _nextWords: Array,         
         _backWords: Array,
         /**
@@ -80,6 +83,7 @@ Example:
       ready: function() {
         var self = this;
         var voice = this.$.voice;
+        voice.accent = this.language;
         var callback = this._chimpWork;
         if (this.auto == true) {
             voice.start();

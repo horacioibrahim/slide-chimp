@@ -22,15 +22,17 @@
   "keywords": [
     "web-component",
     "web-components",
-    "polymer"
+    "polymer",
+    "slide-chimp",
+    "slider"
   ],
   "repository": {
-    "url": "git://github.com/foo/bar.git",
+    "url": "git://github.com/horacioibrahim/slide-chimp.git",
     "type": "git"
   },
   "main": [
     "slide-chimp.html"
   ],
-  "homepage": "http://horacioibrahim.github.io/pyPolymer",
-  "description": "This element X solve the problem Y."
+  "homepage": "http://horacioibrahim.github.io/slide-chimp",
+  "description": "Web Component that allows you to pass forward/backward slides using Speech Recognition API"
 }
