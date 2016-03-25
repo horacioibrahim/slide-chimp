@@ -1,0 +1,173 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../voice-elements/dist/voice-recognition.html">
+<link rel="import" href="../neon-animation/neon-animated-pages.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <slide-chimp></slide-chimp>
+
+Example:
+
+    <slide-chimp>
+      <h2>Hello slide-chimp</h2>
+    </slide-chimp>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="slide-chimp">
+  <template>
+    <voice-recognition id="voice"></voice-recognition>
+    
+    <div class="container">
+        <neon-animated-pages id="pages" selected="0">
+            <content selector=".page-chimp"></content>
+        </neon-animated-pages>  
+    </div>
+      
+  </template>
+
+  <script>
+    Polymer({
+      is: 'slide-chimp',
+
+      properties: {
+        /**
+         * `language` indicates that the element should don a monocle and tophat,
+         * while checking its pocket watch.
+         */
+        language: Boolean,
+        nextWords: Array,
+        backWords: Array,
+        forward: {
+            type: String,
+            observer: "_forwardChanged"
+        },
+        backward: { 
+            type: String,
+            observer: "_backwardChanged"
+        },
+        text: String,
+        auto: {
+            type: Boolean,
+            value: false
+        }
+      },
+
+      // Element Lifecycle
+
+      ready: function() {
+        // `ready` is called after all elements have been configured, but
+        // propagates bottom-up. This element's children are ready, but parents
+        // are not.
+        //
+        // This is the point where you should make modifications to the DOM (when
+        // necessary), or kick off any processes the element wants to perform.
+        var self = this;
+        var voice = this.$.voice;
+        var callback = this._chimpWork;
+        if (this.auto == true) {
+            voice.start();
+        }
+          
+        voice.addEventListener('result', function(evt){
+            callback(evt, self);
+        });          
+      },
+
+      attached: function() {
+        // `attached` fires once the element and its parents have been inserted
+        // into a document.
+        //
+        // This is a good place to perform any work related to your element's
+        // visual state or active behavior (measuring sizes, beginning animations,
+        // loading resources, etc).
+      },
+
+      detached: function() {
+        // The analog to `attached`, `detached` fires when the element has been
+        // removed from a document.
+        //
+        // Use this to clean up anything you did in `attached`.
+      },
+
+      // Element Behavior
+
+      /**
+       * Sometimes it's just nice to say hi.
+       *
+       * @param {string} greeting A positive greeting.
+       * @return {string} The full greeting.
+       */
+      start: function() {
+        var voice = this.$.voice;
+        voice.start();
+      },
+      /**
+       * Sometimes it's just nice to say hi.
+       *
+       * @param {string} greeting A positive greeting.
+       * @return {string} The full greeting.
+       */
+      stop: function() {
+        var voice = this.$.voice;
+        voice.stop();
+      },
+      _forwardChanged: function(){
+          var forward = this.forward.split(",")
+          forward.forEach(function(elem, idx, arr){
+             arr[idx] = elem.trim(); 
+          });
+          this.nextWords = forward.slice();
+          console.log("forwardChanged");
+      },
+      _backwardChanged: function(){
+          var backward = this.backward.split(",")
+          backward.forEach(function(elem, idx, arr){
+             arr[idx] = elem.trim(); 
+          });
+          this.backWords = backward.slice();          
+      },
+      _chimpWork: function(evt, elem){
+            var self = elem;
+            self.text = evt.detail.result;
+            self.text = self.text.trim();
+            elem.$.voice.text = '';
+            console.log(self.text);
+          
+            var has_nextWords = self.nextWords ? self.nextWords.indexOf(self.text) : -1;
+            var has_backWords = self.backWords ? self.backWords.indexOf(self.text) : -1;
+            
+            // if next
+            if (has_nextWords > -1) {
+                self.fire('forward');
+                self.$.pages.selectNext();
+            }
+            // if back
+            if (has_backWords > -1) {
+                self.fire('backward');
+                self.$.pages.selectPrevious();
+            }
+            // if repeat in both lists.
+            if ((has_nextWords > -1) && (has_backWords > -1)) {
+                console.warn("Repeated words.");
+                return ;
+            } 
+      }
+    });
+  </script>
+</dom-module>
