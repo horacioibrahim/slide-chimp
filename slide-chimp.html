@@ -13,17 +13,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../neon-animation/neon-animated-pages.html">
 
 <!--
-An element providing a solution to no problem in particular.
+Web Component that allows you to pass forward/backward slides with speech recognition API.
 
 Example:
 
-    <slide-chimp></slide-chimp>
-
-Example:
-
-    <slide-chimp>
-      <h2>Hello slide-chimp</h2>
-    </slide-chimp>
+    <slide-chimp auto forward="next, go, change, forward" backward="back, previous, back one slide"></slide-chimp>
 
 @demo demo/index.html
 @hero hero.svg
@@ -47,21 +41,34 @@ Example:
 
       properties: {
         /**
-         * `language` indicates that the element should don a monocle and tophat,
-         * while checking its pocket watch.
+         * `language` specifies the language to be reconized.
          */
-        language: Boolean,
-        nextWords: Array,
-        backWords: Array,
+        language: Boolean,        
+        _nextWords: Array,         
+        _backWords: Array,
+        /**
+         * `forward` specifies the list of the words *separated by comma* to pass
+         * slides forward.
+         */          
         forward: {
             type: String,
             observer: "_forwardChanged"
         },
+        /**
+         * `backward` specifies the list of the words *separated by comma* to pass
+         * slides backward.
+         */          
         backward: { 
             type: String,
             observer: "_backwardChanged"
         },
+        /**
+         * `text` stores the string of the recognized text.
+         */            
         text: String,
+        /**
+         * `auto` specifies if the API speech should started when page loads.
+         */            
         auto: {
             type: Boolean,
             value: false
@@ -71,12 +78,6 @@ Example:
       // Element Lifecycle
 
       ready: function() {
-        // `ready` is called after all elements have been configured, but
-        // propagates bottom-up. This element's children are ready, but parents
-        // are not.
-        //
-        // This is the point where you should make modifications to the DOM (when
-        // necessary), or kick off any processes the element wants to perform.
         var self = this;
         var voice = this.$.voice;
         var callback = this._chimpWork;
@@ -89,59 +90,40 @@ Example:
         });          
       },
 
-      attached: function() {
-        // `attached` fires once the element and its parents have been inserted
-        // into a document.
-        //
-        // This is a good place to perform any work related to your element's
-        // visual state or active behavior (measuring sizes, beginning animations,
-        // loading resources, etc).
-      },
-
-      detached: function() {
-        // The analog to `attached`, `detached` fires when the element has been
-        // removed from a document.
-        //
-        // Use this to clean up anything you did in `attached`.
-      },
-
       // Element Behavior
 
       /**
-       * Sometimes it's just nice to say hi.
-       *
-       * @param {string} greeting A positive greeting.
-       * @return {string} The full greeting.
+       * Triggers the voice-elements to be played.
        */
       start: function() {
         var voice = this.$.voice;
         voice.start();
       },
       /**
-       * Sometimes it's just nice to say hi.
-       *
-       * @param {string} greeting A positive greeting.
-       * @return {string} The full greeting.
+       * Triggers the voice-elements to be stoped.
        */
       stop: function() {
         var voice = this.$.voice;
         voice.stop();
       },
+      // Observer
       _forwardChanged: function(){
           var forward = this.forward.split(",")
           forward.forEach(function(elem, idx, arr){
              arr[idx] = elem.trim(); 
           });
-          this.nextWords = forward.slice();
+          this._nextWords = forward.slice();
           console.log("forwardChanged");
       },
+      // Observer
       _backwardChanged: function(){
           var backward = this.backward.split(",")
           backward.forEach(function(elem, idx, arr){
              arr[idx] = elem.trim(); 
           });
-          this.backWords = backward.slice();          
+          this._backWords = backward.slice();          
       },
+      // Pass forward or backward our slides within neon-animated-pages.
       _chimpWork: function(evt, elem){
             var self = elem;
             self.text = evt.detail.result;
@@ -149,8 +131,8 @@ Example:
             elem.$.voice.text = '';
             console.log(self.text);
           
-            var has_nextWords = self.nextWords ? self.nextWords.indexOf(self.text) : -1;
-            var has_backWords = self.backWords ? self.backWords.indexOf(self.text) : -1;
+            var has_nextWords = self._nextWords ? self._nextWords.indexOf(self.text) : -1;
+            var has_backWords = self._backWords ? self._backWords.indexOf(self.text) : -1;
             
             // if next
             if (has_nextWords > -1) {

@@ -42,8 +42,11 @@ Or [download a ZIP](https://github.com/horacioibrahim/slide-chimp/archive/gh-pag
 Attribute   | Options   | Default   | Description
 ---         | ---       |---        |---  
 `auto`      | *boolean* | `false`   | Specifies if the API speech should started when page loads.
-`forward`   | *string*  | `undefined`| Specifies the list of the words to pass slides forward.
-`backward`   | *string*  | `undefined`| Specifies the list of the words to pass slides backward.
+`forward`   | *string*  | `undefined`| Specifies the list of the words *separated by comma* to pass slides forward.
+`backward`   | *string*  | `undefined`| Specifies the list of the words *separated by comma* to pass slides backward.
+`text`   | *string*  | `undefined`| Stores the string of the recognized text.
+`language` | *string* | `en_US` | Specifies the language to be reconized. 
+
 
 ### Methods
 
