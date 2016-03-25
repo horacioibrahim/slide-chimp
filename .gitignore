@@ -1,0 +1,10 @@
+
+# secutiry data
+*.developerprofile
+*.p12
+
+# requirements
+bower_components
+
+# OS  and npm files
+.DS_Store
