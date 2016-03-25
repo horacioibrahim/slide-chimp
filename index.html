@@ -1,1 +1,300 @@
-My Pages
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="slide-chimp: Web Component that allows you to pass forward/backward slides using Speech Recognition API.">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto+Slab">
+    <style>
+        /** example based pure and http://zenorocha.github.io/voice-elements/ */
+        body {
+            font-family: Roboto;
+        }
+        .splash-head-chimp {
+            text-transform: lowercase;
+            color: rgba(255,255,255,0.54);
+            font-size: 2.5em;
+        }
+        .splash-head-chimp > span {
+            color: rgba(255,255,255,1);
+            font-weight: 500;
+        }
+        .center {
+            max-width: 768px;
+            margin: 0 auto;
+            display: block;
+            padding: 0 80px 20px 80px;
+        }
+        pre {
+            display: block;
+            padding: 9.5px;
+            margin: 0 0 10px;
+            font-size: 14px;
+            line-height: 20px;
+            word-break: break-all;
+            word-wrap: break-word;
+            white-space: pre;
+            white-space: pre-wrap;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            font-family: Monaco, Consolas, "Lucida Console", monospace;
+        }
+    </style>
+    <title>slide-chimp web components!</title>
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="css/layouts/marketing.css">
+    <!--<![endif]-->
+</head>
+
+<body>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head-chimp">&lt;<span>slide-chimp</span>&gt;</h1>
+        <p class="splash-subhead">
+            A 'chimp' (Web Component) that pass your slides by voice command (Speech Recognition API)
+        </p>
+        <p>
+            <iframe src="http://ghbtns.com/github-btn.html?user=horacioibrahim&amp;repo=slide-chimp&amp;type=watch&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="152" height="30"></iframe>
+            <iframe src="http://ghbtns.com/github-btn.html?user=horacioibrahim&amp;repo=slide-chimp&amp;type=fork&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="156" height="30"></iframe>
+        </p>
+        <img src="img/hero.svg">
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="content">
+        <h2 class="content-head is-center">INSTALL</h2>
+
+        <div class="pure-g-r">
+            <div class="center">
+                <div class="l-box pure-u-1">
+                <h3 class="content-subhead">
+                    Install the component using Bower
+                </h3>
+                <pre>$ bower install slide-chimp</pre>
+                <div class="is-center">
+                    <a class="pure-button" href="https://github.com/horacioibrahim/slide-chimp/fork">Fork on GitHub</a>
+                    <a class="pure-button" href="https://github.com/horacioibrahim/slide-chimp/archive/gh-pages.zip">Download as ZIP</a>
+                </div>
+            </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="ribbon l-box-lrg pure-g">
+        <div class="section pure-u-1 pure-u-med-1-2 pure-u-lrg-3-5 center">
+                <h2 class="content-head content-head-ribbon">&lt;slide-chimp&gt;</h2>
+                <p>Provides you to pass forward/backward slides with voice recognition</p>
+
+                <!-- Demo #1 -->
+                <p>In the following demo, we trigger the voice recognition by using the <strong>start</strong> method when the user submits the form. Then, we add a listener to the <strong>result</strong> event to fetch the recognized content and put it into the textarea.</p>
+
+                <slide-chimp id="slide-chimp-element"></slide-chimp>
+                <script>
+                window.addEventListener('WebComponentsReady', function(e) {
+                    var form = document.querySelector('#recognition-form'),
+                        input = document.querySelector('#recognition-input'),
+                        element = document.querySelector('#recognition-element');
+
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        element.start();
+                    });
+
+                    element.addEventListener('result', function(e) {
+                        input.textContent = e.detail.result;
+                    });
+                });
+                </script>
+
+                <div class="example">
+                    <p>Click "start", authorize, and say something...</p>
+
+                    <form id="recognition-form" class="pure-form">
+                        <fieldset>
+                            <textarea id="recognition-input" readonly=""></textarea>
+                        </fieldset>
+                        <fieldset>
+                            <button id="recognition-submit" class="pure-button pure-button-primary">Start!</button>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <pre><code class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-title">voice-recognition</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"recognition-element"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">voice-recognition</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">var</span> form = document.querySelector(<span class="hljs-string">'#recognition-form'</span>),
+    input = document.querySelector(<span class="hljs-string">'#recognition-input'</span>),
+    element = document.querySelector(<span class="hljs-string">'#recognition-element'</span>);
+
+form.addEventListener(<span class="hljs-string">'submit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span>
+    e.preventDefault();
+    element.start();
+});
+
+element.addEventListener(<span class="hljs-string">'result'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span>
+    input.textContent = e.detail.result;
+});
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</code></pre>
+
+                <!-- Options -->
+                <h2 class="content-head content-head-ribbon">Options</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Attribute</th>
+                            <th>Options</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>continuous</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>Specifies if the recognition should continue when the user pauses while speaking.</td>
+                        </tr>
+                        <tr>
+                            <td>text</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>Returns the recognized text.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Methods -->
+                <h2 class="content-head content-head-ribbon">Methods</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Parameters</th>
+                            <th>Returns</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>start()</td>
+                            <td>None</td>
+                            <td>Nothing</td>
+                            <td>Starts the voice recognition.</td>
+                        </tr>
+                        <tr>
+                            <td>stop()</td>
+                            <td>None</td>
+                            <td>Nothing</td>
+                            <td>Requests to recognition service to stop listening to more audio.</td>
+                        </tr>
+                        <tr>
+                            <td>abort()</td>
+                            <td>None</td>
+                            <td>Nothing</td>
+                            <td>Requests to immediately stop listening and stop recognizing.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Events -->
+                <h2 class="content-head content-head-ribbon">Events</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>onstart</td>
+                            <td>Triggers when the recognition begins.</td>
+                        </tr>
+                        <tr>
+                            <td>onerror</td>
+                            <td>Triggers when there's a recognition error.</td>
+                        </tr>
+                        <tr>
+                            <td>onend</td>
+                            <td>Triggers when the recognition ends.</td>
+                        </tr>
+                        <tr>
+                            <td>onresult</td>
+                            <td>Triggers when there's a recognition result.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+
+    <div class="content">
+        <h2 class="content-head is-center">Dolore magna aliqua. Uis aute irure.</h2>
+
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
+                <form class="pure-form pure-form-stacked">
+                    <fieldset>
+
+                        <label for="name">Your Name</label>
+                        <input id="name" type="text" placeholder="Your Name">
+
+
+                        <label for="email">Your Email</label>
+                        <input id="email" type="email" placeholder="Your Email">
+
+                        <label for="password">Your Password</label>
+                        <input id="password" type="password" placeholder="Your Password">
+
+                        <button type="submit" class="pure-button">Sign Up</button>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
+                <h4>Contact Us</h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat.
+                </p>
+
+                <h4>More Information</h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer l-box is-center">
+        View the source of this layout to learn more. Made with love by the YUI Team.
+    </div>
+
+</div>
+
+</body>
+    
+</html>
